@@ -1,0 +1,81 @@
+
+Install ERPNext on ArchLinux
+yakthungba edited this page May 2, 2019 · 16 revisions
+Install pre-requisites
+
+# pacman -Syu
+# pacman -S mariadb redis python2-pip wkhtmltopdf git npm cronie nginx openssl
+# npm install -g yarn
+
+Setup MariaDB
+
+# mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+# systemctl start mariadb
+# mysql_secure_installation
+
+For more information - https://wiki.archlinux.org/index.php/MySQL#Installation
+
+Add the following in mysql configuration located in /etc/mysql/my.conf
+
+# nano /etc/mysql/my.cnf
+
+  [mysqld]
+  innodb-file-format=barracuda
+  innodb-file-per-table=1
+  innodb-large-prefix=1
+  character-set-client-handshake = FALSE
+  character-set-server = utf8mb4
+  collation-server = utf8mb4_unicode_ci
+
+  [mysql]
+  default-character-set = utf8mb4
+
+Ctrl + X and then Y to save the file.
+
+Start services
+
+# systemctl start mariadb redis
+
+Note if you don't have cron service enabled you would have to enable it by
+
+# systemctl enable cronie
+
+Install ERPNext
+
+$ git clone https://github.com/frappe/bench bench-repo
+$ pip2 install --user -e bench-repo # no root required installing as user.
+$ echo "export PATH=$HOME/.local/bin:$PATH" >> ~/.bashrc # add ~/.local/bin to path if not already there.
+$ source ~/.bashrc
+$ bench init frappe-bench && cd frappe-bench
+$ bench get-app erpnext https://github.com/frappe/erpnext
+$ bench new-site site1.local
+$ bench --site site1.local install-app erpnext
+$ bench use site1.local
+$ bench start
+
+Congrats, now open http://localhost:8000
+
+Custom Footer Page
+Pages 24
+
+Home
+Bench Procfile
+How to change hostname or add custom domains to frappe site
+Install ERPNext on ArchLinux
+
+    Install pre-requisites
+    Install ERPNext
+
+Install Erpnext on ubuntu 16.04 LTS server
+Install ERPNext Version 5 on Debian
+Installing Bench Pre requisites on MacOSX
+Installing ERPNext on Fedora 22 & 23
+MariaDB conf for Frappe
+Migrating from ERPNext version 3
+Migrating from old bench
+Multi Bench Setup
+Multitenant Setup
+OS and Hardware Specifications
+Quick Reference Guide
+Clone this wiki locally
+Footer
