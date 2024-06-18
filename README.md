@@ -320,11 +320,10 @@ bench new-site --db-name [] --db-password [] --db-type mariadb --db-host 127.0.0
 ## Drop Site 
 bench drop-site --mariadb-root-username admin@localhost --mariadb-root-password admin --force banna.com
 
-## Source Node
-https://deb.nodesource.com/
-
-## Ative Python 
+## ACTIVE Python Environment
 source env/bin/activate
+## Deactivate Python Environment
+source env/bin/deactivate
 
 ## Explore Site Commands:
  bench --site library.test console
@@ -339,7 +338,7 @@ bench get-app --branch=version-15 frappe
 ## add Frontend
 bench add-frappe-ui
 
-# ERPNext related configs
+## ERPNext related configs
 ERPNEXT_API_KEY = 'ad43b3e0a015a82'
 ERPNEXT_API_SECRET = 'd550eb2103b2a9b'
 ERPNEXT_URL = 'http://dev.local:8000'
@@ -359,3 +358,19 @@ FLUSH PRIVILEGES;
 EXIT;
 sudo killall mysqld_safe
 sudo systemctl start mysql
+
+## Explore Site Commands:
+ bench --site library.test console
+ bench --site library.test mariadb
+ bench --site library.test backup
+
+## Update Frappe App
+bench switch-to-branch version-15 frappe erpnext --upgrade
+git pull upstream version-15
+bench get-app --branch=version-15 frappe
+
+## network check
+sudo apt install net-tools
+sudo netstat -tuln | grep '13000\|11000'
+sudo lsof -i :13000
+sudo kill 27381
