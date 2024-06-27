@@ -16,8 +16,48 @@ sudo apt update
 sudo apt install mariadb-server
 
 # Configure MariaDB for unicode (optional)
-sudo nano /etc/mysql/my.cnf
-# (Add the configuration lines as explained in the previous guide)
+# Define the text to add for each section
+TEXT_TO_ADD_MYSQLD="
+character-set-client-handshake = FALSE
+character-set-server = utf8mb4
+collation-server = utf8mb4_unicode_ci
+"
+
+TEXT_TO_ADD_MYSQL="
+default-character-set = utf8mb4
+"
+
+# Add text to my.cnf, creating sections if they don't exist
+CONFIG_FILE="/etc/mysql/my.cnf"
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "Error: Configuration file '$CONFIG_FILE' not found."
+  exit 1
+fi
+
+# Function to add text to a section if it doesn't already exist
+add_text_to_section() {
+  local section_name="$1"
+  local text_to_add="$2"
+  local config_file="$3"
+
+  if grep -q "\[$section_name\]" "$config_file"; then
+    # Section exists, check if text already exists
+    if ! grep -q "$text_to_add" "$config_file"; then
+      # Text is missing, add it
+      sed -i "/\[$section_name\]/a $text_to_add" "$config_file"
+      echo "Added text to [$section_name] section in '$config_file'."
+    fi
+  else
+    # Section doesn't exist, create it and add the text
+    echo "[$section_name]" >> "$config_file"
+    echo "$text_to_add" >> "$config_file"
+    echo "Created [$section_name] section and added text to '$config_file'."
+  fi
+}
+
+# Add text to [mysqld] and [mysql] sections
+add_text_to_section "mysqld" "$TEXT_TO_ADD_MYSQLD" "$CONFIG_FILE"
+add_text_to_section "mysql" "$TEXT_TO_ADD_MYSQL" "$CONFIG_FILE"
 
 # Install Frappe-bench
 pip3 install frappe-bench
