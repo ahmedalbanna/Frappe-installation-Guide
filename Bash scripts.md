@@ -58,7 +58,9 @@ add_text_to_section() {
 # Add text to [mysqld] and [mysql] sections
 add_text_to_section "mysqld" "$TEXT_TO_ADD_MYSQLD" "$CONFIG_FILE"
 add_text_to_section "mysql" "$TEXT_TO_ADD_MYSQL" "$CONFIG_FILE"
-
+# Create a virtual environment:
+python3 -m venv my_frappe_env
+source my_frappe_env/bin/activate
 # Install Frappe-bench
 pip3 install frappe-bench
 
