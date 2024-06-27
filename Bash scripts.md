@@ -7,7 +7,7 @@ automate common Frappe tasks.
 
 # Install required packages
 sudo apt-get update
-sudo apt-get install -y git python3-dev python3-setuptools python3-pip virtualenv \
+sudo apt-get install -y git python3-dev python3-setuptools python3-pip python3.10-venv virtualenv \
   libmysqlclient-dev redis-server nodejs yarn xvfb libfontconfig wkhtmltopdf \
   software-properties-common dirmngr apt-transport-https
 
