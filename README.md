@@ -95,7 +95,7 @@ MariaDB is a powerful open-source relational database management system:
 ```bash
 sudo mysql_secure_installation
 ```
-
+if have error on connection with mysql root go to step Changing the MySQL Root Password
 ### Step 6: Install MariaDB development files
 
 ```bash
@@ -103,7 +103,10 @@ sudo apt-get install libmysqlclient-dev
 ```
 
 ### Step 7: Configure MariaDB for Unicode
-
+if you don't have nano
+```bash
+sudo apt install nano
+```
 1. **Edit the MariaDB configuration file:**
 
    ```bash
