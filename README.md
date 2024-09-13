@@ -362,7 +362,7 @@ bench new-site dcode.com
 1. **Connect to MySQL:**
 
    ```bash
-   mysql -u root -p
+   sudo mysql -u root -p
    ```
 
 2. **Create the new user:**
@@ -531,6 +531,10 @@ bench --site frappe.localhost set-config ignore_csrf 1
 
    ```bash
    sudo systemctl stop mysql
+   killall mysqld
+   sudo nano /home/[username]/mysql-init # ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword';
+   sudo mysqld --init-file=/home/[username]/mysql-init &
+   sudo service mysql start
    ```
 
 2. **Start MySQL in safe mode:**
@@ -542,7 +546,7 @@ bench --site frappe.localhost set-config ignore_csrf 1
 3. **Connect to MySQL as the root user:**
 
    ```bash
-   mysql -u root
+   sudo mysql -u root
    ```
 
 4. **Update the root password:**
